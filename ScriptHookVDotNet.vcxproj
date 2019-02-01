@@ -50,7 +50,7 @@
   <!-- Release compilation settings -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NOSOUND;NOMINMAX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN32_LEAN_AND_MEAN;NOSOUND;NOMINMAX;NDEBUG;SHVDN_VERSION="2.10.3";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(SHVDN_VERSION)' != ''">SHVDN_VERSION="$(SHVDN_VERSION)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -90,6 +90,7 @@
     <ClCompile Include="source\scripting\Euphoria.cpp" />
     <ClCompile Include="source\scripting\EuphoriaBase.cpp" />
     <ClCompile Include="source\scripting\Game.cpp" />
+    <ClCompile Include="source\scripting\LidarScanner.cpp" />
     <ClCompile Include="source\scripting\Matrix.cpp" />
     <ClCompile Include="source\scripting\Menu.cpp" />
     <ClCompile Include="source\scripting\Model.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="source\scripting\EuphoriaHelpers.hpp" />
     <ClInclude Include="source\scripting\Game.hpp" />
     <ClInclude Include="source\scripting\Interface.hpp" />
+    <ClInclude Include="source\scripting\LidarScanner.hpp" />
     <ClInclude Include="source\scripting\Matrix.hpp" />
     <ClInclude Include="source\scripting\Menu.hpp" />
     <ClInclude Include="source\scripting\Model.hpp" />

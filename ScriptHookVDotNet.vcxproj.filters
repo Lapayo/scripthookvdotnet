@@ -121,6 +121,9 @@
       <Filter>scripting\World</Filter>
     </ClCompile>
     <ClCompile Include="source\AssemblyInfo.cpp" />
+    <ClCompile Include="source\scripting\LidarScanner.cpp">
+      <Filter>scripting\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\core\Native.hpp">
@@ -238,6 +241,9 @@
       <Filter>scripting</Filter>
     </ClInclude>
     <ClInclude Include="source\scripting\WeaponAsset.hpp">
+      <Filter>scripting\World</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scripting\LidarScanner.hpp">
       <Filter>scripting\World</Filter>
     </ClInclude>
   </ItemGroup>

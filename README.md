@@ -1,22 +1,20 @@
-Community Script Hook V .NET
+LiDAR Simulator - Script Hook V .NET
 ============================
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/crosire/scripthookvdotnet?branch=master&svg=true)](https://ci.appveyor.com/project/crosire/scripthookvdotnet)
-[![Join the chat at https://gitter.im/crosire/scripthookvdotnet](https://img.shields.io/badge/gitter-join%20chat-1dce73.svg)](https://gitter.im/crosire/scripthookvdotnet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Modifications for LIDAR
+This is a fork of Script Hook V .NET v2 with a native VC++ LIDAR Simulator implementation. For usage please refer to https://github.com/Lapayo/GTALidar.
 
-This is an ASI plugin for Grand Theft Auto V, based on the C++ ScriptHook by Alexander Blade, which allows running scripts written in any .NET language in-game.
+### Building
+Just build it as usual with VS and move the content of the bin/ folder into the GTA folder.
 
-Feel free to ask questions related to GTA V scripting or this project in the public [Gitter chat room](https://gitter.im/crosire/scripthookvdotnet). The issues page should be primarily used for bug reports and enhancement ideas.
+For detailed explanations please refer to the Script Hook V .NET documentation. 
+https://github.com/crosire/scripthookvdotnet
 
 ## Requirements
 
 * [C++ ScriptHook by Alexander Blade](http://www.dev-c.com/gtav/scripthookv/)
 * [.NET Framework ≥ 4.7.2](https://dotnet.microsoft.com/download/dotnet-framework-runtime)
 * [Visual C++ Redistributable for Visual Studio 2017 x64](https://visualstudio.microsoft.com/downloads/)
-
-## Downloads
-
-Pre-built binaries can be found on the [releases](https://github.com/crosire/scripthookvdotnet/releases) page.
 
 ## Contributing
 
