@@ -126,7 +126,7 @@ namespace GTA
 				Model m = ((Ped^)result.HitEntity)->CurrentVehicle->Model;
 				if (m.IsBicycle)
 				{
-					return LidarScanner::LBL_BICYCLE;
+					return LidarScanner::LBL_PED_ON_BICYCLE;
 				}
 				else if (m.IsBike)
 				{
