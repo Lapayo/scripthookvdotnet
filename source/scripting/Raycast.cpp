@@ -8,13 +8,15 @@ namespace GTA
 {
 	RaycastResult::RaycastResult(int handle) : _hitEntity(nullptr)
 	{
-		int hitsomething = 0, enthandle = 0;
+		int hitsomething = 0, enthandle = 0, mathash = 0;
 		Native::OutputArgument ^hitCoords = gcnew Native::OutputArgument(), ^surfaceNormal = gcnew Native::OutputArgument();
-		_result = Native::Function::Call<int>(Native::Hash::_GET_RAYCAST_RESULT, handle, &hitsomething, hitCoords, surfaceNormal, &enthandle);
+		_result = Native::Function::Call<int>(Native::Hash::_GET_RAYCAST_RESULT_2, handle, &hitsomething, hitCoords, surfaceNormal, &mathash, &enthandle);
+		//_result = Native::Function::Call<int>(Native::Hash::_GET_RAYCAST_RESULT, handle, &hitsomething, hitCoords, surfaceNormal, &enthandle);
 
 		_didHit = hitsomething != 0;
 		_hitCoords = hitCoords->GetResult<Math::Vector3>();
 		_surfaceNormal = surfaceNormal->GetResult<Math::Vector3>();
+		_mat = mathash;
 
 		if (Native::Function::Call<bool>(Native::Hash::DOES_ENTITY_EXIST, enthandle))
 		{
@@ -56,5 +58,9 @@ namespace GTA
 	Math::Vector3 RaycastResult::SurfaceNormal::get()
 	{
 		return _surfaceNormal;
+	}
+	int RaycastResult::Mat::get()
+	{
+		return _mat;
 	}
 }

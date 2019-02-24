@@ -35,11 +35,16 @@ namespace GTA
 		{
 			Math::Vector3 get();
 		}
+		property int Mat
+		{
+			int get();
+		}
 
 	internal:
 		RaycastResult(int handle);
 
 	private:
+		int _mat;
 		int _result;
 		bool _didHit;
 		Entity ^_hitEntity;

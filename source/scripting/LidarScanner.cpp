@@ -38,9 +38,33 @@ namespace GTA
 
 					// Call to raycasting method
 					// All - except simple ped collision http://www.dev-c.com/nativedb/func/info/65287525d951f6be
-					RaycastResult result = World::Raycast(source, dest, (IntersectOptions)(4294967295 - 4));
+					RaycastResult result = World::Raycast(source, dest, flags);
+					// int raycastHandle = Native::Function::Call<int>(Native::Hash::_0x7EE9F5D83DD4F90E, start.X, start.Y, start.Z, end.X, end.Y, end.Z, 4294967295 - 4, 0, 0); // last p8=7?
+					/*int raycastHandle = Native::Function::Call<int>(Native::Hash::_0x7EE9F5D83DD4F90E, // LOS Probe, maybe helps with wheels missing
+						source.X, source.Y, source.Z,
+						dest.X, dest.Y, dest.Z,
+						static_cast<int>(4294967295 - 4), 0, 7
+					);*/
+					/*int raycastHandle = Native::Function::Call<int>(Native::Hash::_0x377906D8A31E5586,
+						source.X, source.Y, source.Z,
+						dest.X, dest.Y, dest.Z,
+						static_cast<int>(4294967295 - 4), 0, 7
+					);*/
+					/*int raycastHandle = Native::Function::Call<int>(Native::Hash::_0x7EE9F5D83DD4F90E, // LOS Probe, maybe helps with wheels missing
+						source.X, source.Y, source.Z,
+						dest.X, dest.Y, dest.Z,
+						511, 0, 0
+					);*/
+
+					
+					// RaycastResult result = RaycastResult(raycastHandle);
 
 					unsigned int idx = scanner->horizontalResolution * v + h;
+					mat[3 * idx] = result.Mat;
+					surfaceNormal[3 * idx] = result.SurfaceNormal.X;
+					surfaceNormal[3 * idx + 1] = result.SurfaceNormal.Y;
+					surfaceNormal[3 * idx + 2] = result.SurfaceNormal.Z;
+
 					if (result.DitHitAnything)
 					{
 						float dist = result.HitCoords.DistanceTo(source);
@@ -50,14 +74,23 @@ namespace GTA
 						if (result.DitHitEntity)
 						{
 							label[idx] = LidarScanner::GetLabelFromRaycast(result);
+
+							mat[3 * idx + 1] = result.HitEntity->Model.Hash;
+							mat[3 * idx + 2] = result.HitEntity->Handle;
 						}
 						else {
 							label[idx] = LidarScanner::LBL_UNK;
+
+							mat[3 * idx + 1] = -1;
+							mat[3 * idx + 2] = -1;
 						}
 					}
 					else {
 						depth[idx] = scanner->range;
 						label[idx] = LidarScanner::LBL_UNK;
+
+						mat[3 * idx + 1] = -1;
+						mat[3 * idx + 2] = -1;
 					}
 				}
 			}
@@ -67,13 +100,16 @@ namespace GTA
 		LidarScanner ^scanner;
 		array<float> ^depth;
 		array<unsigned short> ^label;
+		array<int> ^mat;
+		array<float> ^surfaceNormal;
+		IntersectOptions flags;
 	};
 
 	LidarScanner::LidarScanner(float horizontalMin, float horizontalMax, int horizontalResolution,
-		float verticalMin, float verticalMax, int verticalResolution, float range)
+		float verticalMin, float verticalMax, int verticalResolution, float range, unsigned int flags)
 		: horizontalMin(horizontalMin), horizontalMax(horizontalMax), horizontalResolution(horizontalResolution),
 		verticalMin(verticalMin), verticalMax(verticalMax), verticalResolution(verticalResolution),
-		range(range)
+		range(range), flags((IntersectOptions)(flags))
 	{
 		// calculate step size
 		this->horizontalStep = (horizontalMax - horizontalMin) / horizontalResolution;
@@ -84,16 +120,22 @@ namespace GTA
 	 * Runs a full lidar scan in the native env, data returned through referenced depth, label
 	 */
 	void LidarScanner::Scan(Math::Vector3 source, Math::Vector3 forward,
-		Math::Vector3 right, Math::Vector3 up, array<float> ^depth, array<unsigned short> ^label) {
+		Math::Vector3 right, Math::Vector3 up, array<float> ^depth,
+		array<unsigned short> ^label, array<int> ^mat, array<float> ^surfaceNormal) {
 		// Put task on main thread, task writes into the result arrays
 		const auto task = gcnew NativeLidarScan();
 		task->scanner = this;
 		task->depth = depth;
 		task->label = label;
+		task->mat = mat;
+		task->surfaceNormal = surfaceNormal;
+
 		task->source = source;
 		task->forward = forward;
 		task->right = right;
 		task->up = up;
+
+		task->flags = flags;
 
 		ScriptDomain::CurrentDomain->ExecuteTask(task);
 

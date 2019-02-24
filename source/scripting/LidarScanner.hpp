@@ -3,6 +3,7 @@
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 #include "Interface.hpp"
+#include "World.hpp"
 
 namespace GTA
 {
@@ -25,10 +26,10 @@ namespace GTA
 	public:
 		LidarScanner(float horizontalMin, float horizontalMax, int horizontalResultion,
 			float verticalMin, float verticalMax, int verticalResolution,
-			float range);
+			float range, unsigned int flags);
 		
 		void Scan(Math::Vector3 position, Math::Vector3 forward, Math::Vector3 right, Math::Vector3 up,
-			array<float> ^depth, array<unsigned short> ^label);
+			array<float> ^depth, array<unsigned short> ^label, array<int> ^mat, array<float> ^surfaceNormal);
 		static unsigned short LidarScanner::GetLabelFromRaycast(RaycastResult &result);
 
 		// Parameters for the simulated LIDAR scanner, self explaining
@@ -37,6 +38,7 @@ namespace GTA
 		float verticalMin, verticalMax, verticalStep;
 		int verticalResolution;
 		float range;
+		IntersectOptions flags;
 
 		// Labels the scanner uses
 		const static unsigned short LBL_UNK = 0;
